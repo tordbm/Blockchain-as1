@@ -24,7 +24,7 @@ class BlockChainTest(unittest.TestCase):
         "nonce": 0,
         }
         difficulty = 4
-        proof, _ = blockchain.proof_of_work(block, 4)
+        proof, _ = blockchain.proof_of_work(block, difficulty)
         self.assertEqual(proof[:difficulty], "0"*difficulty, 
                          f"Proof of Work should return hash\nthat satisfies the difficulty set by script: currently {'0'*difficulty}")
     
