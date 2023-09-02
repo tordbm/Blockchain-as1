@@ -23,9 +23,10 @@ class BlockChainTest(unittest.TestCase):
         "prev_hash": blockchain.get_prev_hash(chain),
         "nonce": 0,
         }
-        proof, _ = blockchain.proof_of_work(block)
-        test_proof = blockchain.hash_block(block)
-        self.assertEqual(proof, test_proof, "Proof of Work should always return same hash for identical block")
+        difficulty = 4
+        proof, _ = blockchain.proof_of_work(block, 4)
+        self.assertEqual(proof[:difficulty], "0"*difficulty, 
+                         f"Proof of Work should return hash\nthat satisfies the difficulty set by script: currently {'0'*difficulty}")
     
     def test_hash_block(self):
         chain = Blockchain()
