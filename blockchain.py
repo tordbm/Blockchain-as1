@@ -99,7 +99,14 @@ def run(chain: Blockchain) -> None:
             run = False
             clear_screen()
     
-    print(dumps(chain.get(), indent=1))
+    format_and_print_json(chain.get())
+    
+def format_and_print_json(chain:Blockchain):
+    for num, block in enumerate(chain):
+        print(f"Block {num}")
+        print("----------------------")
+        for key in block.keys():
+            print(f"{key}: {block[key]}")
     
 def main() -> None:
     chain = Blockchain()
