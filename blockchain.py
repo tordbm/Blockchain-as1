@@ -7,6 +7,7 @@ class Blockchain:
     
     def __init__(self) -> None:
         self.chain: list = []
+        self.genesis: str = "0"*64
     
     def get(self) -> list:
         return self.chain
@@ -16,8 +17,6 @@ class Blockchain:
     
     def add_block(self, block: dict) -> None:
         self.chain.append(block)
-
-genesis: str = "0"*64
 
 def create_block(transactions: list, blockchain: Blockchain) -> None:
     block = {
@@ -35,7 +34,7 @@ def create_block(transactions: list, blockchain: Blockchain) -> None:
 
 def get_prev_hash(blockchain: Blockchain) -> str:
     if len(blockchain.get()) == 0:
-        return genesis
+        return blockchain.genesis
     else:
         last_block: dict = blockchain.get()[-1]
         return last_block.get("hash")
@@ -107,6 +106,7 @@ def format_and_print_json(chain:Blockchain):
         print("----------------------")
         for key in block.keys():
             print(f"{key}: {block[key]}")
+        print("\t")
     
 def main() -> None:
     chain = Blockchain()
