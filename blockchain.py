@@ -20,8 +20,8 @@ class Blockchain:
 
 def create_block(transactions: list, blockchain: Blockchain) -> None:
     block = {
-        "transactions": transactions,
-        "height": len(blockchain.get()),
+        "transactions": sorted(transactions, key=lambda x: sorted(x.keys())),
+        "height": blockchain.chain_length(),
         "timestamp": asctime(gmtime()),
         "prev_hash": get_prev_hash(blockchain),
         "nonce": 0,
@@ -35,9 +35,8 @@ def create_block(transactions: list, blockchain: Blockchain) -> None:
 def get_prev_hash(blockchain: Blockchain) -> str:
     if len(blockchain.get()) == 0:
         return blockchain.genesis
-    else:
-        last_block: dict = blockchain.get()[-1]
-        return last_block.get("hash")
+    last_block: dict = blockchain.get()[-1]
+    return last_block.get("hash")
 
 def hash_block(block: dict) -> str:
     return sha256(dumps(block, sort_keys=True).encode('utf8')).hexdigest()
@@ -93,14 +92,14 @@ def run(chain: Blockchain) -> None:
         create_block(transactions, chain)
         clear_screen()
         print(f"Block with {count} transactions created!")
-        continue_choice = input(f"Do you wish to continue making more blocks? Chain currently has {chain.chain_length()} {'blocks' if chain.chain_length()>1 else 'block'}: (y/n): ")
+        continue_choice = input(f"Chain currently has {chain.chain_length()} {'blocks' if chain.chain_length()>1 else 'block'}. Show (n) or continue making blocks (y): (y/n): ")
         if continue_choice == "n":
             run = False
             clear_screen()
     
     format_and_print_json(chain.get())
     
-def format_and_print_json(chain:Blockchain):
+def format_and_print_json(chain: Blockchain) -> None:
     for num, block in enumerate(chain):
         print(f"Block {num}")
         print("----------------------")
