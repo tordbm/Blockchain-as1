@@ -1,4 +1,4 @@
-# Blockchain for INFO384
+# Simple Blockchain in Python
 
 This is a terminal based program implementing a blockchain in Python.
 
